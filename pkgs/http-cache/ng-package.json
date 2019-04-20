@@ -1,0 +1,9 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../builds/nwx-http-cache",
+  "lib": {
+    "flatModuleFile": "nwx-http-cache",
+    "entryFile": "index.ts",
+    "umdModuleIds": {}
+  }
+}
