@@ -11,5 +11,5 @@
  */
 export class HttpCacheCfg {
     // estimate expiry time of http cache (in seconds)
-    ttl: number
+    ttl: number;
 }

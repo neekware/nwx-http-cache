@@ -6,16 +6,16 @@
  * found in the LICENSE file at http://neekware.com/license/MIT.html
  */
 
-import { HttpCacheModule } from "../src/http-cache.module";
+import { HttpCacheModule } from '../src/http-cache.module';
 
-describe("HttpCacheModule", () => {
+describe('HttpCacheModule', () => {
   let httpCacheModule: HttpCacheModule;
 
   beforeEach(() => {
     httpCacheModule = new HttpCacheModule();
   });
 
-  it("should create an instance", () => {
+  it('should create an instance', () => {
     expect(httpCacheModule).toBeTruthy();
   });
 });
