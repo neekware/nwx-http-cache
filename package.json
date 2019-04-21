@@ -38,7 +38,7 @@
     "ci": "yarn pkg:lint && yarn pkg:test:ci",
     "ci:all": "yarn ci && yarn app:lint && yarn app:test:ci && yarn app:e2e:ci",
     "###----- Tools -----###": "Tool commands",
-    "format": "node node_modules/.bin/prettier --single-quote --print-width 90 --write 'apps/**/src/*.{ts,css,scss,json}' 'pkgs/**/src/*.{ts,css,scss,json}'",
+    "format": "node node_modules/.bin/prettier --single-quote --print-width 100 --write 'apps/**/src/*.{ts,css,scss,json}' 'corelibs/**/src/*.{ts,css,scss,json}' 'featurelibs/**/src/*.{ts,css,scss,json}' 'sharedlibs/common/**/src/*.{ts,css,scss,json}'",
     "release": "ts-node ./tools/release.ts -- "
   },
   "private": true,

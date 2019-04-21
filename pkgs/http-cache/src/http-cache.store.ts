@@ -45,8 +45,7 @@ export class CacheStore<T = StoreType> {
    * into the existing state (creating a new state object).
    * Note: https://github.com/Microsoft/TypeScript/issues/18823
    */
-  setState(reducer: SetStateReducer<T>): void;
-  setState(partialState: Partial<T>): void;
+  setState(updater: SetStateReducer<T> | Partial<T>): void;
   setState(updater: any): void {
     const currentState = this.getStateSnapshot();
     const partialState = isFunction(updater) ? updater(currentState) : updater;

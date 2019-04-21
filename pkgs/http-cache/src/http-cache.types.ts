@@ -17,7 +17,9 @@ export class HttpCacheCfg {
 /**
  * Unique Meta Data for http request
  */
-export type HttpCacheUniqueMeta = { [id: string]: string | number };
+export interface HttpCacheUniqueMeta {
+  [id: string]: string | number;
+}
 
 /**
  * Http Fetch Policy
@@ -69,9 +71,7 @@ export const HTTP_INTRECEPT_FETCH_POLICY = '__HTTP_INTRECEPT_FETCH_POLICY__';
  * State Reducer that gives the caller the option of defining the new state partial using a callback by
  * providing the current state snapshot.
  */
-export interface SetStateReducer<T> {
-  (currentState: T): Partial<T>;
-}
+export type SetStateReducer<T> = (currentState: T) => Partial<T>;
 
 /**
  * Store Type - Object
