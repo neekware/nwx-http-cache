@@ -14,6 +14,8 @@ import { LogService } from '@nwx/logger';
 
 import { DefaultHttpCacheCfg } from './http-cache.defaults';
 import { HttpCacheModule } from './http-cache.module';
+import { HttpResponse } from '@angular/common/http';
+import { HttpCacheUniqueMeta } from './http-cache.types';
 
 /**
  * An injectable class that handles HttpCache service
@@ -22,12 +24,9 @@ import { HttpCacheModule } from './http-cache.module';
   providedIn: 'root'
 })
 export class HttpCacheService {
+  private cache = new Map<string, HttpResponse<any>>();
   private _options: AppCfg = null;
 
-  /**
-   * Class constructor
-   * @param options an optional configuration object
-   */
   constructor(private cfg: CfgService, private log: LogService) {
     this._options = merge({ httpCache: DefaultHttpCacheCfg }, cfg.options);
     this.log.debug('HttpCacheService ready ...');
@@ -35,5 +34,32 @@ export class HttpCacheService {
 
   get options() {
     return this._options;
+  }
+
+  get(key: string): HttpResponse<any> {
+    return this.cache.get(key);
+  }
+
+  set(key: string, value: HttpResponse<any>) {
+    this.cache.set(key, value);
+    this.setStore(key, value);
+  }
+
+  private setStore(key: string, value: HttpResponse<any>) {}
+
+  uniqueKey(uniqueMeta: HttpCacheUniqueMeta): string {
+    const tokens: string[] = [];
+    Object.keys(uniqueMeta)
+      .sort()
+      .forEach(key => {
+        tokens.push(`${key}:${uniqueMeta[key]}`);
+      });
+
+    if (tokens.length < 1) {
+      throw Error("Invalid uniqueMeta");
+    }
+
+    const cacheKey = tokens.join("::");
+    return cacheKey;
   }
 }
