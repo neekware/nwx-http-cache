@@ -6,11 +6,11 @@
  * found in the LICENSE file at http://neekware.com/license/MIT.html
  */
 
-import { BehaviorSubject, Observable } from "rxjs";
-import { get as ldGet } from "lodash";
-import { StoreType, SetStateReducer } from "./http-cache.types";
-import { map, distinctUntilChanged } from "rxjs/operators";
-import { isFunction } from "./http-cache.utils";
+import { BehaviorSubject, Observable } from 'rxjs';
+import { get as ldGet } from 'lodash';
+import { StoreType, SetStateReducer } from './http-cache.types';
+import { map, distinctUntilChanged } from 'rxjs/operators';
+import { isFunction } from './http-cache.utils';
 
 export class CacheStore<T = StoreType> {
   private state$: BehaviorSubject<T>;

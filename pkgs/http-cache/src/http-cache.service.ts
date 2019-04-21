@@ -6,22 +6,22 @@
  * found in the LICENSE file at http://neekware.com/license/MIT.html
  */
 
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
-import { get as ldGet, merge as ldMerge } from "lodash";
-import { CfgService, AppCfg } from "@nwx/cfg";
-import { LogService } from "@nwx/logger";
+import { get as ldGet, merge as ldMerge } from 'lodash';
+import { CfgService, AppCfg } from '@nwx/cfg';
+import { LogService } from '@nwx/logger';
 
-import { DefaultHttpCacheCfg } from "./http-cache.defaults";
-import { HttpCacheModule } from "./http-cache.module";
-import { HttpResponse } from "@angular/common/http";
-import { HttpCacheUniqueMeta } from "./http-cache.types";
+import { DefaultHttpCacheCfg } from './http-cache.defaults';
+import { HttpCacheModule } from './http-cache.module';
+import { HttpResponse } from '@angular/common/http';
+import { HttpCacheUniqueMeta } from './http-cache.types';
 
 /**
  * An injectable class that handles HttpCache service
  */
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class HttpCacheService {
   private cache = new Map<string, HttpResponse<any>>();
@@ -29,7 +29,7 @@ export class HttpCacheService {
 
   constructor(private cfg: CfgService, private log: LogService) {
     this.options = ldMerge({ httpCache: DefaultHttpCacheCfg }, cfg.options);
-    this.log.debug("HttpCacheService ready ...");
+    this.log.debug('HttpCacheService ready ...');
   }
 
   get(key: string): HttpResponse<any> {
@@ -52,10 +52,10 @@ export class HttpCacheService {
       });
 
     if (tokens.length < 1) {
-      throw Error("Invalid uniqueMeta");
+      throw Error('Invalid uniqueMeta');
     }
 
-    const cacheKey = tokens.join("::");
+    const cacheKey = tokens.join('::');
     return cacheKey;
   }
 }

@@ -10,5 +10,5 @@
  * Checks if an object is a function
  */
 export const isFunction = (object: any): boolean => {
-  return typeof object === "function" || object instanceof Function || false;
+  return typeof object === 'function' || object instanceof Function || false;
 };
