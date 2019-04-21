@@ -65,3 +65,17 @@ export enum HttpCacheFetchPolicy {
 export const HTTP_INTRECEPT_CACHE_KEY = "__HTTP_INTRECEPT_CACHE_KEY__";
 export const HTTP_INTRECEPT_FETCH_POLICY = "__HTTP_INTRECEPT_FETCH_POLICY__";
 
+/**
+ * State Reducer that gives the caller the option of defining the new state partial using a callback by
+ * providing the current state snapshot.
+ */
+export interface SetStateReducer<T> {
+  (currentState: T): Partial<T>;
+}
+
+/**
+ * Store Type - Object 
+ */
+export interface StoreType {
+  [key: string]: any
+}
