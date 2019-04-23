@@ -79,3 +79,11 @@ export type SetStateReducer<T> = (currentState: T) => Partial<T>;
 export interface StoreType {
   [key: string]: any;
 }
+
+/**
+ * Options for interpolation
+ */
+export interface InterpolationOptions {
+  singleSpace: boolean;
+  trim: boolean;
+}
