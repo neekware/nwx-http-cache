@@ -42,20 +42,4 @@ export class HttpCacheService {
   }
 
   private setStore(key: string, value: HttpResponse<any>) {}
-
-  uniqueKey(uniqueMeta: HttpCacheUniqueMeta): string {
-    const tokens: string[] = [];
-    Object.keys(uniqueMeta)
-      .sort()
-      .forEach(key => {
-        tokens.push(`${key}:${uniqueMeta[key]}`);
-      });
-
-    if (tokens.length < 1) {
-      throw Error('Invalid uniqueMeta');
-    }
-
-    const cacheKey = tokens.join('::');
-    return cacheKey;
-  }
 }
