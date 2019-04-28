@@ -40,7 +40,7 @@
     "ci": "yarn pkg:lint && yarn pkg:build && yarn pkg:test:ci",
     "ci:all": "yarn ci && yarn app:lint && yarn app:test:ci && yarn app:e2e:ci",
     "###----- Tools -----###": "Tool commands",
-    "format": "node node_modules/.bin/prettier --single-quote --print-width 100 --write 'apps/**/src/*.{ts,css,scss,json}' 'pkgs/**/src/*.{ts,css,scss,json}'",
+    "format": "node node_modules/.bin/prettier --single-quote --print-width 100 --write 'apps/**/src/*.{ts,css,scss,json}' 'pkgs/**/*.{ts,css,scss,json}'",
     "release": "node ./tools/release.js ",
     "update": "node tools/update.js -m yarn"
   },

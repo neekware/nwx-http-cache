@@ -7,7 +7,7 @@
     "umdModuleIds": {
       "lodash": "lodash",
       "@nwx/cfg": "@nwx/cfg",
-      "@nwx/logger": "@nwx/logger"      
+      "@nwx/logger": "@nwx/logger"
     }
   }
 }

@@ -72,7 +72,7 @@ export class OrderedStatePath {
     if (!value || value.length < 1) {
       throw Error('Error: empty value is not allowed!');
     }
-    this.map.set(key, value);
+    this.map = this.map.set(key, value);
     return this;
   }
 

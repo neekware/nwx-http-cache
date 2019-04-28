@@ -6,11 +6,7 @@
  * found in the LICENSE file at http://neekware.com/license/MIT.html
  */
 
-import {
-  isFunction,
-  interpolate,
-  OrderedStatePath,
-} from '../src/http-cache.utils';
+import { isFunction, interpolate, OrderedStatePath } from '../src/http-cache.utils';
 
 describe('HttpCache Utils', function() {
   it('should isFunction return true', function() {
@@ -25,6 +21,14 @@ describe('HttpCache Utils', function() {
     const input = 'some.foo.bar.thingy';
     const output = interpolate(input, {});
     expect(output).toBe(input);
+  });
+
+  it('should ordered state path throw error for empty key or value', function() {
+    const statePath = new OrderedStatePath();
+    expect(() => statePath.add('', 'empty')).toThrow(new Error('Error: empty key is not allowed!'));
+    expect(() => statePath.add('empty', '')).toThrow(
+      new Error('Error: empty value is not allowed!')
+    );
   });
 
   it('should create a specific ordered state path', function() {
@@ -60,7 +64,8 @@ describe('HttpCache Utils', function() {
         '[1000]': {
           portfolio: {
             '[2]': {
-              ticker: {  // <-- Match any tickers' location in the state/store object
+              ticker: {
+                // <-- Match any tickers' location in the state/store object
                 '[TSLA]': {},
                 '[GOOG]': {},
                 '[INTL]': {},
