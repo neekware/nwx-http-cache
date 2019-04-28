@@ -1,0 +1,6 @@
+{
+  "files.exclude": {
+    "**/builds": true,
+    "**/coverage": true
+  }
+}
