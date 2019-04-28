@@ -10,3 +10,4 @@ export { HttpCacheCfg } from './src/http-cache.types';
 export { DefaultHttpCacheCfg } from './src/http-cache.defaults';
 export { HttpCacheModule } from './src/http-cache.module';
 export { HttpCacheService } from './src/http-cache.service';
+export { HttpCacheInterceptor } from './src/http-cache.interceptor';

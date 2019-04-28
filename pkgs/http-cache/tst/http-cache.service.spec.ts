@@ -8,8 +8,6 @@
 
 import { TestBed, inject } from '@angular/core/testing';
 
-import { isMatch } from 'lodash';
-
 import { CfgModule } from '@nwx/cfg';
 import { LogModule } from '@nwx/logger';
 
@@ -26,7 +24,7 @@ describe('HttpCacheService', () => {
   it(
     'should be created with default values',
     inject([HttpCacheService], (service: HttpCacheService) => {
-      expect(service.options.httpCache.ttl).toBe(60);
+      expect(service['options'].httpCache.ttl).toBe(60);
     })
   );
 
