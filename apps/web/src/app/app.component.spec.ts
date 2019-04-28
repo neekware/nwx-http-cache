@@ -2,16 +2,12 @@ import { TestBed, async } from '@angular/core/testing';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { CfgModule, AppCfg, CFG_OPTIONS } from '@nwx/cfg';
-
 import { LogModule } from '@nwx/logger';
-
-import { Observable, of as observableOf } from 'rxjs';
-
 import { HttpCacheModule } from 'pkgs/http-cache';
-
 import { AppComponent } from './app.component';
 
 const AppEnv: AppCfg = {
+  version: '0.0.1',
   appName: '@nwx/http-cache',
   production: false
 };

@@ -21,7 +21,7 @@ import { HttpCacheUniqueMeta } from './http-cache.types';
  * An injectable class that handles HttpCache service
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HttpCacheService {
   private cache = new Map<string, HttpResponse<any>>();

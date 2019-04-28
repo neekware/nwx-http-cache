@@ -2,6 +2,7 @@ import { AppCfg, TargetPlatform, HttpMethod } from '@nwx/cfg';
 import { LogLevels } from '@nwx/logger';
 
 export const environment: AppCfg = {
+  version: '0.0.1',
   // app name
   appName: '@nwx/http-cache',
   // target (browser, mobile, desktop)

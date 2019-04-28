@@ -61,7 +61,7 @@ export enum HttpCacheFetchPolicy {
   // the cache data, this fetchPolicy will always execute a network query.
   // This fetch policy strives to optimize for a quick response while also trying to keep
   // cached data consistent with the server data at the cost of extra network requests.
-  CacheAndNetwork = 'cache-and-network'
+  CacheAndNetwork = 'cache-and-network',
 }
 
 export const HTTP_INTRECEPT_CACHE_KEY = '__HTTP_INTRECEPT_CACHE_KEY__';

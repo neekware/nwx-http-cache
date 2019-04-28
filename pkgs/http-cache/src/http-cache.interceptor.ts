@@ -5,14 +5,14 @@ import {
   HttpRequest,
   HttpHandler,
   HttpInterceptor,
-  HttpErrorResponse
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, of as observableOf, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import {
   HttpCacheFetchPolicy,
   HTTP_INTRECEPT_CACHE_KEY,
-  HTTP_INTRECEPT_FETCH_POLICY
+  HTTP_INTRECEPT_FETCH_POLICY,
 } from './http-cache.types';
 import { HttpCacheService } from './http-cache.service';
 

@@ -13,7 +13,7 @@ import { HttpCacheCfg } from './http-cache.types';
  */
 export const DefaultHttpCacheCfg: HttpCacheCfg = {
   // estimate expiry time of http cache (in seconds)
-  ttl: 60
+  ttl: 60,
 };
 
 /**
@@ -21,5 +21,5 @@ export const DefaultHttpCacheCfg: HttpCacheCfg = {
  */
 export const DefaultInterpolationOptions = {
   singleSpace: true,
-  trim: true
+  trim: true,
 };
