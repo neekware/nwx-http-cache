@@ -47,7 +47,7 @@ export const interpolate = (
 };
 
 /**
- * Class to create orderd path to our insternal state/store
+ * Class to create ordered path to our internal state/store
  */
 export class OrderedStatePath {
   private map: Map<string | number, string | number>;
@@ -78,7 +78,7 @@ export class OrderedStatePath {
 
   /**
    * Converts the internal key,value map to a dot-separated string
-   * @returns  A dot-seperated string (a path into the state object in the store)
+   * @returns  A dot-separated string (a path into the state object in the store)
    */
   toString() {
     const hierarchy = [];

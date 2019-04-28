@@ -16,7 +16,7 @@ export class CacheStore<T = StoreType> {
   private state$: BehaviorSubject<T>;
 
   /**
-   * Initialize the store with the givne initial state value
+   * Initialize the store with the given initial state value
    * @param {T} The initial state of store
    */
   constructor(initialState: T) {
