@@ -57,11 +57,11 @@ export class OrderedStatePath {
   }
 
   /**
-   *
-   * @param path {string} A key or a value
+   * Cleans up an input string consumable by objects as key or value
+   * @param input {string} A key or a value
    */
-  private cleanString(path: string): string {
-    return `${path}`
+  private cleanString(input: string): string {
+    return `${input}`
       .replace(/\s+/gm, '') // convert to single line
       .replace(/\./g, '_') // replace . with _
       .replace(/_+/g, '_') // replace multiple _ with single _
