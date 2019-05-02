@@ -57,6 +57,19 @@ export class OrderedStatePath {
   }
 
   /**
+   *
+   * @param path {string} A key or a value
+   */
+  private cleanString(path: string): string {
+    return `${path}`
+      .replace(/\s+/gm, '')
+      .replace(/\./g, '_')
+      .replace(/_+/g, '_')
+      .replace(/^[_]+|[_]+$/g, '')
+      .trim();
+  }
+
+  /**
    * Add a key,value pair to internal map
    * @param key {string|number} Key of a tuple
    * @param value {string|number} Value of a tuple
@@ -64,14 +77,16 @@ export class OrderedStatePath {
    * Note: value = '*' means catch all
    */
   add(key: string | number, value: string | number) {
-    key = `${typeof key === 'string' ? key.replace('.', '-') : key}`.replace(/-+/g, '-');
-    value = `${typeof value === 'string' ? value.replace('.', '-') : value}`.replace(/-+/g, '-');
+    key = this.cleanString(`${key}`);
     if (!key || key.length < 1) {
       throw Error('Error: empty key is not allowed!');
     }
+
+    value = this.cleanString(`${value}`);
     if (!value || value.length < 1) {
       throw Error('Error: empty value is not allowed!');
     }
+
     this.map = this.map.set(key, value);
     return this;
   }

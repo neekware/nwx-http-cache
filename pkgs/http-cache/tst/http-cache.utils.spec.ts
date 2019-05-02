@@ -65,7 +65,7 @@ describe('HttpCache Utils', function() {
           portfolio: {
             '[2]': {
               ticker: {
-                // <-- Match any tickers' location in the state/store object
+                // -- Match any tickers' location in the state/store object
                 '[TSLA]': {},
                 '[GOOG]': {},
                 '[INTL]': {},
@@ -83,6 +83,34 @@ describe('HttpCache Utils', function() {
       .toString();
 
     const expectedStatePath = 'userId.[1000].portfolio.[2].ticker';
+    expect(statePath).toBe(expectedStatePath);
+  });
+
+  it('should clean up state path', function() {
+    const state = {
+      user_id: {
+        '[1000]': {
+          portfolio: {
+            '[2]': {
+              ticker: {
+                // -- Match any tickers' location in the state/store object
+                '[TSLA_R]': {},
+                '[GOOG]': {},
+                '[INTL]': {},
+                '[APPL]': {},
+              },
+            },
+          },
+        },
+      },
+    };
+    const statePath = new OrderedStatePath()
+      .add('user.id', 1000)
+      .add('.__portfolio__', 2)
+      .add('ticker.....', 'TSLA.R')
+      .toString();
+
+    const expectedStatePath = 'user_id.[1000].portfolio.[2].ticker.[TSLA_R]';
     expect(statePath).toBe(expectedStatePath);
   });
 });
