@@ -62,10 +62,10 @@ export class OrderedStatePath {
    */
   private cleanString(path: string): string {
     return `${path}`
-      .replace(/\s+/gm, '')
-      .replace(/\./g, '_')
-      .replace(/_+/g, '_')
-      .replace(/^[_]+|[_]+$/g, '')
+      .replace(/\s+/gm, '') // convert to single line
+      .replace(/\./g, '_') // replace . with _
+      .replace(/_+/g, '_') // replace multiple _ with single _
+      .replace(/^[_]+|[_]+$/g, '') // remove _ from start & end
       .trim();
   }
 
