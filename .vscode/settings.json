@@ -1,6 +1,7 @@
 {
   "files.exclude": {
     "**/builds": true,
-    "**/coverage": true
+    "**/coverage": true,
+    "**/node_modules": true
   }
 }

@@ -64,8 +64,8 @@ export class OrderedStatePath {
    * Note: value = '*' means catch all
    */
   add(key: string | number, value: string | number) {
-    key = `${typeof key === 'string' ? key.replace('.', '-') : key}`;
-    value = `${typeof value === 'string' ? value.replace('.', '-') : value}`;
+    key = `${typeof key === 'string' ? key.replace('.', '-') : key}`.replace(/-+/g, '-');
+    value = `${typeof value === 'string' ? value.replace('.', '-') : value}`.replace(/-+/g, '-');
     if (!key || key.length < 1) {
       throw Error('Error: empty key is not allowed!');
     }
