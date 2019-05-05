@@ -17,21 +17,18 @@ import { HttpCacheService } from '../src/http-cache.service';
 describe('HttpCacheService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CfgModule.forRoot(), LogModule, HttpCacheModule]
+      imports: [CfgModule.forRoot(), LogModule, HttpCacheModule],
     });
   });
 
-  it(
-    'should be created with default values',
-    inject([HttpCacheService], (service: HttpCacheService) => {
+  it('should be created with default values', inject(
+    [HttpCacheService],
+    (service: HttpCacheService) => {
       expect(service['options'].httpCache.ttl).toBe(60);
-    })
-  );
+    }
+  ));
 
-  it(
-    'should be created',
-    inject([HttpCacheService], (service: HttpCacheService) => {
-      expect(service).toBeTruthy();
-    })
-  );
+  it('should be created', inject([HttpCacheService], (service: HttpCacheService) => {
+    expect(service).toBeTruthy();
+  }));
 });

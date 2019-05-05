@@ -4,6 +4,10 @@
   "lib": {
     "flatModuleFile": "nwx-http-cache",
     "entryFile": "index.ts",
-    "umdModuleIds": {}
+    "umdModuleIds": {
+      "lodash": "lodash",
+      "@nwx/cfg": "@nwx/cfg",
+      "@nwx/logger": "@nwx/logger"
+    }
   }
 }

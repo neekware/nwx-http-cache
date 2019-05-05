@@ -16,6 +16,6 @@ import { HttpCacheService } from './http-cache.service';
  */
 @NgModule({
   imports: [CommonModule],
-  providers: [HttpCacheService]
+  providers: [HttpCacheService],
 })
 export class HttpCacheModule {}
