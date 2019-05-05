@@ -12,7 +12,10 @@ import { HttpCacheCfg } from './http-cache.types';
  * Default configuration - HttpCache module
  */
 export const DefaultHttpCacheCfg: HttpCacheCfg = {
-  // estimate expiry time of http cache (in seconds)
+  // by default cache is disabled
+  disabled: true,
+
+  // by default, expiry time of http cache is 60 seconds
   ttl: 60,
 };
 

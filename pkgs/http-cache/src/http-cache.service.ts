@@ -25,15 +25,21 @@ import { HttpCacheUniqueMeta } from './http-cache.types';
 })
 export class HttpCacheService {
   private cache = new Map<string, HttpResponse<any>>();
-  private options: AppCfg;
+  private _options: AppCfg;
 
   constructor(private cfg: CfgService, private log: LogService) {
-    this.options = ldMerge({ httpCache: DefaultHttpCacheCfg }, cfg.options);
+    this._options = ldMerge({ httpCache: DefaultHttpCacheCfg }, cfg.options);
     this.log.debug('HttpCacheService ready ...');
   }
 
-  get(key: string): HttpResponse<any> {
-    return this.cache.get(key);
+  get options() {
+    return this._options;
+  }
+
+  get(key: string, ttl = 0): HttpResponse<any> {
+    if (ttl === 0) {
+      return this.cache.get(key);
+    }
   }
 
   set(key: string, value: HttpResponse<any>) {

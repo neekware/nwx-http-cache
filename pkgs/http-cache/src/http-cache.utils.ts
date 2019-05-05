@@ -50,11 +50,7 @@ export const interpolate = (
  * Class to create ordered path to our internal state/store
  */
 export class OrderedStatePath {
-  private map: Map<string | number, string | number>;
-
-  constructor() {
-    this.map = new Map();
-  }
+  private map = new Map<string | number, string | number>();
 
   /**
    * Cleans up an input string consumable by objects as key or value
