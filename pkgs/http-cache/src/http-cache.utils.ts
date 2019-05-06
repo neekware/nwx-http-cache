@@ -7,8 +7,15 @@
  */
 
 import { merge as ldMerge } from 'lodash';
-import { InterpolationOptions, HttpCacheFetchPolicy } from './http-cache.types';
+import {
+  InterpolationOptions,
+  HttpCacheMetaData,
+  HTTP_CACHE_FETCH_POLICY,
+  HTTP_CACHE_TTL,
+} from './http-cache.types';
 import { DefaultInterpolationOptions, DefaultFetchPolicies } from './http-cache.defaults';
+import { HttpHeaders } from '@angular/common/http';
+import { HTTP_CACHE_KEY } from 'builds/nwx-http-cache/src/http-cache.types';
 
 /**
  * Checks if an object is a function
@@ -110,4 +117,19 @@ export class OrderedStatePath {
  */
 export function isPolicyEnabled(policy: string): boolean {
   return DefaultFetchPolicies.includes(policy);
+}
+
+/**
+ *
+ * @param meta {HttpCacheMetaData} Http cache meta data
+ * @param headers {HttpHeaders} Http Headers instance
+ */
+export function addMetaToHttpHeaders(meta: HttpCacheMetaData, headers?: HttpHeaders): HttpHeaders {
+  if (!headers) {
+    headers = new HttpHeaders();
+  }
+  headers.append(HTTP_CACHE_FETCH_POLICY, meta.policy);
+  headers.append(HTTP_CACHE_KEY, meta.key);
+  headers.append(HTTP_CACHE_TTL, meta.ttl.toString());
+  return headers;
 }

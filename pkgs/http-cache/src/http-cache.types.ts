@@ -6,6 +6,8 @@
  * found in the LICENSE file at http://neekware.com/license/MIT.html
  */
 
+import { HttpResponse } from '@angular/common/http';
+
 /**
  * HttpCache config declaration
  */
@@ -90,4 +92,13 @@ export interface StoreType {
 export interface InterpolationOptions {
   singleSpace: boolean;
   trim: boolean;
+}
+
+/**
+ * Http Cache Entry
+ */
+export interface HttpCacheEntry {
+  key: string;
+  response: HttpResponse<any>;
+  expiryTime: number;
 }
