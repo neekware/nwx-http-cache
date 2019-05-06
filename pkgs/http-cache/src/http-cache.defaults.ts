@@ -6,7 +6,7 @@
  * found in the LICENSE file at http://neekware.com/license/MIT.html
  */
 
-import { HttpCacheCfg } from './http-cache.types';
+import { HttpCacheCfg, HttpCacheFetchPolicy } from './http-cache.types';
 
 /**
  * Default configuration - HttpCache module
@@ -26,3 +26,20 @@ export const DefaultInterpolationOptions = {
   singleSpace: true,
   trim: true,
 };
+
+/**
+ * Enabled fetch policy
+ */
+export const DefaultFetchPolicies = [
+  'cache-off',
+  'cache-first',
+  'cache-only',
+  'network-only',
+  'network-first',
+  'cache-and-network',
+];
+
+/**
+ * Default fetch policy
+ */
+export const DefaultFetchPolicy: HttpCacheFetchPolicy = 'cache-first';

@@ -14,81 +14,79 @@ import {
   HTTP_CACHE_KEY,
   HTTP_CACHE_FETCH_POLICY,
   HTTP_CACHE_TTL,
+  HttpCacheMetaData,
 } from './http-cache.types';
 import { HttpCacheService } from './http-cache.service';
+import { isPolicyEnabled } from './http-cache.utils';
+import { DefaultFetchPolicy } from './http-cache.defaults';
 
 @Injectable()
 export class HttpCacheInterceptor implements HttpInterceptor {
   constructor(private cache: HttpCacheService) {}
 
   /**
-   * Returns a fetch policy for this request
+   * Extracts and returns the intercept meta data from request header
    * @param request {HttpRequest<any>} Intercepted request
-   * @param defaultPolicy {HttpCacheFetchPolicy} Fallback default policy
    */
-  private getRequestFetchPolicy(
-    request: HttpRequest<any>,
-    defaultPolicy?: HttpCacheFetchPolicy
-  ): HttpCacheFetchPolicy {
-    let policy = request.headers.get(HTTP_CACHE_FETCH_POLICY);
-    if (!policy && defaultPolicy) {
-      policy = defaultPolicy;
+  private getMeta(req: HttpRequest<any>): HttpCacheMetaData {
+    const policy = req.headers.get(HTTP_CACHE_FETCH_POLICY) || DefaultFetchPolicy;
+    if (policy && !isPolicyEnabled(policy)) {
+      throw Error(`Error: Invalid fetch policy (${policy})`);
     }
-    return policy as HttpCacheFetchPolicy;
+
+    return {
+      policy: policy as HttpCacheFetchPolicy,
+      key: req.headers.get(HTTP_CACHE_KEY),
+      ttl: +(req.headers.get(HTTP_CACHE_TTL) || this.cache.options.httpCache.ttl),
+    };
   }
 
   /**
-   * Returns the cache key from request
+   * Removes intercept meta data from http headers
    * @param request {HttpRequest<any>} Intercepted request
    */
-  private getRequestCacheKey(request: HttpRequest<any>): string {
-    const cacheKey = request.headers.get(HTTP_CACHE_KEY);
-    return cacheKey;
+  private cleanMeta(req: HttpRequest<any>) {
+    [HTTP_CACHE_TTL, HTTP_CACHE_KEY, HTTP_CACHE_FETCH_POLICY].forEach(item =>
+      req.headers.delete(item)
+    );
   }
 
   /**
-   * Returns the cache TTL from request
+   * The logic to handle the cache intercept per meta data instructions
    * @param request {HttpRequest<any>} Intercepted request
+   * @param next {HttpHandler} Handler for this intercept
    */
-  private getRequestCacheTtl(request: HttpRequest<any>): number {
-    return +request.headers.get(HTTP_CACHE_TTL) || +this.cache.options.httpCache.ttl;
-  }
-
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const cacheKey = this.getRequestCacheKey(req);
-    if (cacheKey) {
-      const ttl = this.getRequestCacheTtl(req);
-      const cachedResponse = this.cache.get(cacheKey);
-      const fetchPolicy = this.getRequestFetchPolicy(req, 'cache-first');
-      switch (fetchPolicy) {
+    const meta = this.getMeta(req);
+    if (meta && meta.key) {
+      const cachedResponse = this.cache.get(meta.key, meta.ttl);
+      this.cleanMeta(req);
+      switch (meta.policy) {
         case 'cache-first':
           if (cachedResponse) {
-            req.headers.delete(HTTP_CACHE_KEY);
-            req.headers.delete(HTTP_CACHE_FETCH_POLICY);
             return observableOf(<HttpEvent<any>>cachedResponse);
           }
-          return this.playItForward(req, next, cacheKey, fetchPolicy);
+          return this.playItForward(req, next, meta.key, meta.policy);
 
         case 'cache-and-network':
           if (cachedResponse) {
-            this.playItForward(req, next, cacheKey, fetchPolicy);
+            this.playItForward(req, next, meta.key, meta.policy);
+
             return observableOf(<HttpEvent<any>>cachedResponse);
           }
-          return this.playItForward(req, next, cacheKey, fetchPolicy);
+          return this.playItForward(req, next, meta.key, meta.policy);
 
         case 'network-only':
-          return this.playItForward(req, next, cacheKey, fetchPolicy);
+          return this.playItForward(req, next, meta.key, meta.policy);
 
         case 'cache-only':
-          req.headers.delete(HTTP_CACHE_KEY);
-          req.headers.delete(HTTP_CACHE_FETCH_POLICY);
           if (cachedResponse) {
             return observableOf(<HttpEvent<any>>cachedResponse);
           }
           return throwError(new HttpErrorResponse({}));
 
         case 'cache-off':
-          return this.playItForward(req, next, cacheKey, fetchPolicy);
+          return this.playItForward(req, next, meta.key, meta.policy);
       }
     }
     return this.playItForward(req, next);
@@ -113,8 +111,6 @@ export class HttpCacheInterceptor implements HttpInterceptor {
               default:
                 break;
             }
-            req.headers.delete(HTTP_CACHE_KEY);
-            req.headers.delete(HTTP_CACHE_FETCH_POLICY);
           }
         }
       })

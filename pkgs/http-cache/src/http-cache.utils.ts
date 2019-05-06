@@ -7,8 +7,8 @@
  */
 
 import { merge as ldMerge } from 'lodash';
-import { InterpolationOptions } from './http-cache.types';
-import { DefaultInterpolationOptions } from './http-cache.defaults';
+import { InterpolationOptions, HttpCacheFetchPolicy } from './http-cache.types';
+import { DefaultInterpolationOptions, DefaultFetchPolicies } from './http-cache.defaults';
 
 /**
  * Checks if an object is a function
@@ -102,4 +102,12 @@ export class OrderedStatePath {
     });
     return hierarchy.join('.').replace(/\s+/g, '');
   }
+}
+
+/**
+ * Returns true if fetch policy exists and is enabled
+ * @param policy {string} Fetch policy type
+ */
+export function isPolicyEnabled(policy: string): boolean {
+  return DefaultFetchPolicies.includes(policy);
 }

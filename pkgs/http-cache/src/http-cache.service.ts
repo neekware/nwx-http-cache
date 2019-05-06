@@ -13,9 +13,7 @@ import { CfgService, AppCfg } from '@nwx/cfg';
 import { LogService } from '@nwx/logger';
 
 import { DefaultHttpCacheCfg } from './http-cache.defaults';
-import { HttpCacheModule } from './http-cache.module';
 import { HttpResponse } from '@angular/common/http';
-import { HttpCacheUniqueMeta } from './http-cache.types';
 
 /**
  * An injectable class that handles HttpCache service
