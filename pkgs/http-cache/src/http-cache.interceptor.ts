@@ -26,7 +26,7 @@ export class HttpCacheInterceptor implements HttpInterceptor {
 
   /**
    * Extracts and returns the intercept meta data from request header
-   * @param request {HttpRequest<any>} Intercepted request
+   * @param request Intercepted request
    */
   private getMeta(req: HttpRequest<any>): HttpCacheMetaData {
     const policy = req.headers.get(HTTP_CACHE_FETCH_POLICY) || DefaultFetchPolicy;
@@ -43,7 +43,7 @@ export class HttpCacheInterceptor implements HttpInterceptor {
 
   /**
    * Removes intercept meta data from http headers
-   * @param request {HttpRequest<any>} Intercepted request
+   * @param request Intercepted request
    */
   private cleanMeta(req: HttpRequest<any>) {
     [HTTP_CACHE_TTL, HTTP_CACHE_KEY, HTTP_CACHE_FETCH_POLICY].forEach(item =>
@@ -53,8 +53,8 @@ export class HttpCacheInterceptor implements HttpInterceptor {
 
   /**
    * The logic to handle the cache intercept per meta data instructions
-   * @param request {HttpRequest<any>} Intercepted request
-   * @param next {HttpHandler} Handler for this intercept
+   * @param request Intercepted request
+   * @param next Handler for this intercept
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const meta = this.getMeta(req);
@@ -91,6 +91,12 @@ export class HttpCacheInterceptor implements HttpInterceptor {
     return this.playItForward(req, next);
   }
 
+  /**
+   * Completes http request
+   * @param req Initial request
+   * @param next Next step
+   * @param meta Intercept meta data
+   */
   playItForward(
     req: HttpRequest<any>,
     next: HttpHandler,

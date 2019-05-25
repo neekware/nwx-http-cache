@@ -39,7 +39,7 @@ export class HttpCacheService {
 
   /**
    * Returns an unexpired cache response or null
-   * @param key {string} Cache key
+   * @param key Cache key
    */
   get(key: string): HttpResponse<any> {
     const entry = this.cacheMap.get(key);
@@ -55,8 +55,8 @@ export class HttpCacheService {
 
   /**
    * Caches a http response
-   * @param key {string} Cache key
-   * @param ttl {number} Cache expiry in seconds
+   * @param key Cache key
+   * @param ttl Cache expiry in seconds
    * @param response {HttpResponse<any>} Http response
    */
   set(key: string, ttl = 0, response: HttpResponse<any>) {
@@ -73,7 +73,7 @@ export class HttpCacheService {
 
   /**
    * Returns true if cache is expired, else return false
-   * @param entry {HttpCacheEntry} Cache Entry
+   * @param entry Cache Entry
    */
   private isExpired(entry: HttpCacheEntry): boolean {
     return entry.expiryTime <= Date.now();
