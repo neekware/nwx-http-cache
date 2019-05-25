@@ -31,12 +31,12 @@ export const DefaultInterpolationOptions = {
  * Enabled fetch policy
  */
 export const DefaultFetchPolicies = [
-  'cache-off',
-  'cache-first',
-  'cache-only',
-  'network-only',
-  'network-first',
-  'cache-and-network',
+  HttpCacheFetchPolicy.CacheOff,
+  HttpCacheFetchPolicy.CacheFirst,
+  HttpCacheFetchPolicy.CacheOnly,
+  HttpCacheFetchPolicy.NetworkOnly,
+  HttpCacheFetchPolicy.NetworkFirst,
+  HttpCacheFetchPolicy.ChacheAndNetwork,
 ];
 
 /**

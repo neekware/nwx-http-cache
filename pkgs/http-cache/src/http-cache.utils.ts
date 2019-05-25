@@ -12,6 +12,7 @@ import {
   HttpCacheMetaData,
   HTTP_CACHE_FETCH_POLICY,
   HTTP_CACHE_TTL,
+  HttpCacheFetchPolicy,
 } from './http-cache.types';
 import { DefaultInterpolationOptions, DefaultFetchPolicies } from './http-cache.defaults';
 import { HttpHeaders } from '@angular/common/http';
@@ -115,7 +116,7 @@ export class OrderedStatePath {
  * Returns true if fetch policy exists and is enabled
  * @param policy Fetch policy type
  */
-export function isPolicyEnabled(policy: string): boolean {
+export function isPolicyEnabled(policy: HttpCacheFetchPolicy): boolean {
   return DefaultFetchPolicies.includes(policy);
 }
 

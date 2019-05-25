@@ -30,7 +30,7 @@ export class HttpCacheInterceptor implements HttpInterceptor {
    */
   private getMeta(req: HttpRequest<any>): HttpCacheMetaData {
     const policy = req.headers.get(HTTP_CACHE_FETCH_POLICY) || DefaultFetchPolicy;
-    if (policy && !isPolicyEnabled(policy)) {
+    if (policy && !isPolicyEnabled(HttpCacheFetchPolicy[policy])) {
       throw Error(`Error: Invalid fetch policy (${policy})`);
     }
 
