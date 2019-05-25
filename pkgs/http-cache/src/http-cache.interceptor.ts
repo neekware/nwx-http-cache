@@ -59,34 +59,33 @@ export class HttpCacheInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const meta = this.getMeta(req);
     if (meta && meta.key) {
-      const cachedResponse = this.cache.get(meta.key, meta.ttl);
+      const cachedResponse = this.cache.get(meta.key);
       this.cleanMeta(req);
       switch (meta.policy) {
-        case 'cache-first':
+        case HttpCacheFetchPolicy.CacheFirst:
           if (cachedResponse) {
             return observableOf(<HttpEvent<any>>cachedResponse);
           }
-          return this.playItForward(req, next, meta.key, meta.policy);
+          return this.playItForward(req, next, meta);
 
-        case 'cache-and-network':
+        case HttpCacheFetchPolicy.ChacheAndNetwork:
           if (cachedResponse) {
-            this.playItForward(req, next, meta.key, meta.policy);
-
+            this.playItForward(req, next, meta);
             return observableOf(<HttpEvent<any>>cachedResponse);
           }
-          return this.playItForward(req, next, meta.key, meta.policy);
+          return this.playItForward(req, next, meta);
 
-        case 'network-only':
-          return this.playItForward(req, next, meta.key, meta.policy);
+        case HttpCacheFetchPolicy.NetworkOnly:
+          return this.playItForward(req, next, meta);
 
-        case 'cache-only':
+        case HttpCacheFetchPolicy.CacheOnly:
           if (cachedResponse) {
             return observableOf(<HttpEvent<any>>cachedResponse);
           }
           return throwError(new HttpErrorResponse({}));
 
-        case 'cache-off':
-          return this.playItForward(req, next, meta.key, meta.policy);
+        case HttpCacheFetchPolicy.CacheOff:
+          return this.playItForward(req, next, meta);
       }
     }
     return this.playItForward(req, next);
@@ -95,18 +94,17 @@ export class HttpCacheInterceptor implements HttpInterceptor {
   playItForward(
     req: HttpRequest<any>,
     next: HttpHandler,
-    cacheKey?: string,
-    fetchPolicy?: HttpCacheFetchPolicy
+    meta?: HttpCacheMetaData
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       tap(event => {
         if (event instanceof HttpResponse) {
-          if (cacheKey) {
-            switch (fetchPolicy) {
-              case 'cache-first':
-              case 'cache-and-network':
-              case 'network-first':
-                this.cache.set(cacheKey, event);
+          if (meta.key) {
+            switch (meta.policy) {
+              case HttpCacheFetchPolicy.CacheFirst:
+              case HttpCacheFetchPolicy.ChacheAndNetwork:
+              case HttpCacheFetchPolicy.NetworkFirst:
+                this.cache.set(meta.key, meta.ttl, event);
                 break;
               default:
                 break;

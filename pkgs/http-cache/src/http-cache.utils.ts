@@ -15,7 +15,7 @@ import {
 } from './http-cache.types';
 import { DefaultInterpolationOptions, DefaultFetchPolicies } from './http-cache.defaults';
 import { HttpHeaders } from '@angular/common/http';
-import { HTTP_CACHE_KEY } from 'builds/nwx-http-cache/src/http-cache.types';
+import { HTTP_CACHE_KEY } from './http-cache.types';
 
 /**
  * Checks if an object is a function

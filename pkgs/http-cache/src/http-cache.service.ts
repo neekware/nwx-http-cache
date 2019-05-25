@@ -8,11 +8,11 @@
 
 import { Injectable } from '@angular/core';
 
-import { get as ldGet, merge as ldMerge } from 'lodash';
+import { merge as ldMerge } from 'lodash';
 import { CfgService, AppCfg } from '@nwx/cfg';
 import { LogService } from '@nwx/logger';
 
-import { DefaultHttpCacheCfg, DefaultMaxCacheExpiryInSeconds } from './http-cache.defaults';
+import { DefaultHttpCacheCfg, DefaultMaxCacheExpiry } from './http-cache.defaults';
 import { HttpResponse } from '@angular/common/http';
 import { HttpCacheEntry } from './http-cache.types';
 import { CacheStore } from './http-cache.store';
@@ -60,7 +60,7 @@ export class HttpCacheService {
    * @param response {HttpResponse<any>} Http response
    */
   set(key: string, ttl = 0, response: HttpResponse<any>) {
-    ttl = ttl === 0 ? DefaultMaxCacheExpiryInSeconds : ttl;
+    ttl = ttl === 0 ? DefaultMaxCacheExpiry : ttl;
     const entry: HttpCacheEntry = {
       key,
       response,

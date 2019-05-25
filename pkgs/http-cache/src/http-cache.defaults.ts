@@ -42,9 +42,9 @@ export const DefaultFetchPolicies = [
 /**
  * Default fetch policy
  */
-export const DefaultFetchPolicy: HttpCacheFetchPolicy = 'cache-first';
+export const DefaultFetchPolicy = HttpCacheFetchPolicy.CacheFirst;
 
 /**
  * Max cache is one month
  */
-export const DefaultMaxCacheExpiryInSeconds = 60 * 60 * 24 * 30;
+export const DefaultMaxCacheExpiry = 60 * 60 * 24 * 30;

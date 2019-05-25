@@ -20,7 +20,7 @@ export class CacheStore<T = StoreType> {
    * @param {T} The initial state of store
    */
   constructor(initialState: T) {
-    this.state$ = new BehaviorSubject(initialState);
+    this.state$ = new BehaviorSubject<T>(initialState);
   }
 
   /**
