@@ -7,12 +7,20 @@
  */
 
 import { merge as ldMerge } from 'lodash';
-import { InterpolationOptions } from './http-cache.types';
-import { DefaultInterpolationOptions } from './http-cache.defaults';
+import {
+  InterpolationOptions,
+  HttpCacheMetaData,
+  HTTP_CACHE_FETCH_POLICY,
+  HTTP_CACHE_TTL,
+  HttpCacheFetchPolicy,
+} from './http-cache.types';
+import { DefaultInterpolationOptions, DefaultFetchPolicies } from './http-cache.defaults';
+import { HttpHeaders } from '@angular/common/http';
+import { HTTP_CACHE_KEY } from './http-cache.types';
 
 /**
  * Checks if an object is a function
- * @param input {any} An input of any type
+ * @param input An input of any type
  */
 export function isFunction(input: any): boolean {
   return typeof input === 'function' || input instanceof Function || false;
@@ -25,9 +33,9 @@ const template = (tpl, args) => tpl.replace(/\${(\w+)}/g, (_, v) => args[v]);
 
 /**
  * Interpolation of template with args with params
- * @param inputString {string} An input of type string
- * @param params {Object} A key:value object of parameters
- * @param options {InterpolationOptions} Options for Interpolation
+ * @param inputString An input of type string
+ * @param params A key:value object of parameters
+ * @param options Options for Interpolation
  * @returns A params interpolated string
  */
 export const interpolate = (
@@ -50,15 +58,11 @@ export const interpolate = (
  * Class to create ordered path to our internal state/store
  */
 export class OrderedStatePath {
-  private map: Map<string | number, string | number>;
-
-  constructor() {
-    this.map = new Map();
-  }
+  private map = new Map<string | number, string | number>();
 
   /**
    * Cleans up an input string consumable by objects as key or value
-   * @param input {string} A key or a value
+   * @param input A key or a value
    */
   private cleanString(input: string): string {
     return `${input}`
@@ -71,8 +75,8 @@ export class OrderedStatePath {
 
   /**
    * Add a key,value pair to internal map
-   * @param key {string|number} Key of a tuple
-   * @param value {string|number} Value of a tuple
+   * @param key Key of a tuple
+   * @param value Value of a tuple
    * @returns A map of key,value pairs
    * Note: value = '*' means catch all
    */
@@ -106,4 +110,27 @@ export class OrderedStatePath {
     });
     return hierarchy.join('.').replace(/\s+/g, '');
   }
+}
+
+/**
+ * Returns true if fetch policy exists and is enabled
+ * @param policy Fetch policy type
+ */
+export function isPolicyEnabled(policy: HttpCacheFetchPolicy): boolean {
+  return DefaultFetchPolicies.includes(policy);
+}
+
+/**
+ *
+ * @param meta Http cache meta data
+ * @param headers Http Headers instance
+ */
+export function addMetaToHttpHeaders(meta: HttpCacheMetaData, headers?: HttpHeaders): HttpHeaders {
+  if (!headers) {
+    headers = new HttpHeaders();
+  }
+  headers.append(HTTP_CACHE_FETCH_POLICY, meta.policy);
+  headers.append(HTTP_CACHE_KEY, meta.key);
+  headers.append(HTTP_CACHE_TTL, meta.ttl.toString());
+  return headers;
 }

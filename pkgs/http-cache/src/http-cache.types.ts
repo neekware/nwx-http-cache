@@ -6,19 +6,16 @@
  * found in the LICENSE file at http://neekware.com/license/MIT.html
  */
 
+import { HttpResponse } from '@angular/common/http';
+
 /**
  * HttpCache config declaration
  */
 export class HttpCacheCfg {
+  // disable http cache globally
+  disabled: boolean;
   // estimate expiry time of http cache (in seconds)
   ttl: number;
-}
-
-/**
- * Unique Meta Data for http request
- */
-export interface HttpCacheUniqueMeta {
-  [id: string]: string | number;
 }
 
 /**
@@ -61,11 +58,21 @@ export enum HttpCacheFetchPolicy {
   // the cache data, this fetchPolicy will always execute a network query.
   // This fetch policy strives to optimize for a quick response while also trying to keep
   // cached data consistent with the server data at the cost of extra network requests.
-  CacheAndNetwork = 'cache-and-network',
+  ChacheAndNetwork = 'cache-and-network',
 }
 
-export const HTTP_INTRECEPT_CACHE_KEY = '__HTTP_INTRECEPT_CACHE_KEY__';
-export const HTTP_INTRECEPT_FETCH_POLICY = '__HTTP_INTRECEPT_FETCH_POLICY__';
+/**
+ * Unique Meta Data for http request
+ */
+export interface HttpCacheMetaData {
+  policy: HttpCacheFetchPolicy;
+  key: string;
+  ttl: number;
+}
+
+export const HTTP_CACHE_KEY = '__HTTP_CACHE_KEY__';
+export const HTTP_CACHE_FETCH_POLICY = '__HTTP_CACHE_FETCH_POLICY__';
+export const HTTP_CACHE_TTL = '__HTTP_CACHE_TTL__';
 
 /**
  * State Reducer that gives the caller the option of defining the new state partial using a callback by
@@ -86,4 +93,13 @@ export interface StoreType {
 export interface InterpolationOptions {
   singleSpace: boolean;
   trim: boolean;
+}
+
+/**
+ * Http Cache Entry
+ */
+export interface HttpCacheEntry {
+  key: string;
+  response: HttpResponse<any>;
+  expiryTime: number;
 }
