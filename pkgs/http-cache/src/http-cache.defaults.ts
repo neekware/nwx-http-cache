@@ -31,20 +31,20 @@ export const DefaultInterpolationOptions = {
  * Enabled fetch policy
  */
 export const DefaultFetchPolicies = [
-  'cache-off',
-  'cache-first',
-  'cache-only',
-  'network-only',
-  'network-first',
-  'cache-and-network',
+  HttpCacheFetchPolicy.CacheOff,
+  HttpCacheFetchPolicy.CacheFirst,
+  HttpCacheFetchPolicy.CacheOnly,
+  HttpCacheFetchPolicy.NetworkOnly,
+  HttpCacheFetchPolicy.NetworkFirst,
+  HttpCacheFetchPolicy.ChacheAndNetwork,
 ];
 
 /**
  * Default fetch policy
  */
-export const DefaultFetchPolicy: HttpCacheFetchPolicy = 'cache-first';
+export const DefaultFetchPolicy = HttpCacheFetchPolicy.CacheFirst;
 
 /**
  * Max cache is one month
  */
-export const DefaultMaxCacheExpiryInSeconds = 60 * 60 * 24 * 30;
+export const DefaultMaxCacheExpiry = 60 * 60 * 24 * 30;

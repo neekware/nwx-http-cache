@@ -8,11 +8,11 @@
 
 import { Injectable } from '@angular/core';
 
-import { get as ldGet, merge as ldMerge } from 'lodash';
+import { merge as ldMerge } from 'lodash';
 import { CfgService, AppCfg } from '@nwx/cfg';
 import { LogService } from '@nwx/logger';
 
-import { DefaultHttpCacheCfg, DefaultMaxCacheExpiryInSeconds } from './http-cache.defaults';
+import { DefaultHttpCacheCfg, DefaultMaxCacheExpiry } from './http-cache.defaults';
 import { HttpResponse } from '@angular/common/http';
 import { HttpCacheEntry } from './http-cache.types';
 import { CacheStore } from './http-cache.store';
@@ -39,7 +39,7 @@ export class HttpCacheService {
 
   /**
    * Returns an unexpired cache response or null
-   * @param key {string} Cache key
+   * @param key Cache key
    */
   get(key: string): HttpResponse<any> {
     const entry = this.cacheMap.get(key);
@@ -55,12 +55,12 @@ export class HttpCacheService {
 
   /**
    * Caches a http response
-   * @param key {string} Cache key
-   * @param ttl {number} Cache expiry in seconds
+   * @param key Cache key
+   * @param ttl Cache expiry in seconds
    * @param response {HttpResponse<any>} Http response
    */
   set(key: string, ttl = 0, response: HttpResponse<any>) {
-    ttl = ttl === 0 ? DefaultMaxCacheExpiryInSeconds : ttl;
+    ttl = ttl === 0 ? DefaultMaxCacheExpiry : ttl;
     const entry: HttpCacheEntry = {
       key,
       response,
@@ -73,7 +73,7 @@ export class HttpCacheService {
 
   /**
    * Returns true if cache is expired, else return false
-   * @param entry {HttpCacheEntry} Cache Entry
+   * @param entry Cache Entry
    */
   private isExpired(entry: HttpCacheEntry): boolean {
     return entry.expiryTime <= Date.now();

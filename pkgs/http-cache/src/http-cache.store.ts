@@ -17,15 +17,15 @@ export class CacheStore<T = StoreType> {
 
   /**
    * Initialize the store with the given initial state value
-   * @param {T} The initial state of store
+   * @param initialState The initial state of store
    */
   constructor(initialState: T) {
-    this.state$ = new BehaviorSubject(initialState);
+    this.state$ = new BehaviorSubject<T>(initialState);
   }
 
   /**
    * Returns the current state as a stream
-   * @returns {Observable<T>} The current state stream
+   * @returns The current state stream
    * Note: Emits the current state as the first item in the stream
    */
   getState(): Observable<T> {
@@ -34,15 +34,16 @@ export class CacheStore<T = StoreType> {
 
   /**
    * Returns the current snapshot of the state
-   * @returns {Object} Of type T
+   * @returns Object of type T
    */
   getStateSnapshot(): T {
     return this.state$.getValue();
   }
 
   /**
-   * Moves the store to a new state by merging the given (or generated) partial state into
+   * Moves the store to a new state by merging the given (or generated) partial state
    * into the existing state (creating a new state object).
+   * @param updater Partial data or function to update state
    * Note: https://github.com/Microsoft/TypeScript/issues/18823
    */
   setState(updater: SetStateReducer<T> | Partial<T>): void;
@@ -55,6 +56,7 @@ export class CacheStore<T = StoreType> {
 
   /**
    * Returns dot-notation state key (reference) as stream
+   * @param key Key to section of state
    * Note: Emits the the current state key match as the first item in the stream
    */
   select<K extends keyof T>(key: K): Observable<T[K]> {
