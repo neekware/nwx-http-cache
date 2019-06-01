@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "name": "Rachel Green"
+  },
+  {
+    "id": 2,
+    "name": "Monica Geller"
+  },
+  {
+    "id": 3,
+    "name": "Phoebe Buffay"
+  },
+  {
+    "id": 4,
+    "name": "Chandler Bing"
+  },
+  {
+    "id": 5,
+    "name": "Joey Tribbiani"
+  },
+  {
+    "id": 6,
+    "name": "Ross Geller"
+  },
+  {
+    "id": 7,
+    "name": "David Crane"
+  },
+  {
+    "id": 8,
+    "name": "Marta Kauffman"
+  }
+]
