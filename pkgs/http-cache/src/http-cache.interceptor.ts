@@ -18,7 +18,6 @@ import {
 } from './http-cache.types';
 import { HttpCacheService } from './http-cache.service';
 import { isPolicyEnabled } from './http-cache.utils';
-import { DefaultFetchPolicy } from './http-cache.defaults';
 
 @Injectable()
 export class HttpCacheInterceptor implements HttpInterceptor {
@@ -29,16 +28,19 @@ export class HttpCacheInterceptor implements HttpInterceptor {
    * @param request Intercepted request
    */
   private getMeta(req: HttpRequest<any>): HttpCacheMetaData {
-    const policy = req.headers.get(HTTP_CACHE_FETCH_POLICY) || DefaultFetchPolicy;
-    if (policy && !isPolicyEnabled(HttpCacheFetchPolicy[policy])) {
+    const policy = req.headers.get(HTTP_CACHE_FETCH_POLICY);
+    if (policy && !isPolicyEnabled(policy)) {
       throw Error(`Error: Invalid fetch policy (${policy})`);
     }
 
-    return {
+    const meta = {
       policy: policy as HttpCacheFetchPolicy,
       key: req.headers.get(HTTP_CACHE_KEY),
       ttl: +(req.headers.get(HTTP_CACHE_TTL) || this.cache.options.httpCache.ttl),
     };
+
+    this.cleanMeta(req);
+    return meta;
   }
 
   /**
@@ -60,7 +62,6 @@ export class HttpCacheInterceptor implements HttpInterceptor {
     const meta = this.getMeta(req);
     if (meta && meta.key) {
       const cachedResponse = this.cache.get(meta.key);
-      this.cleanMeta(req);
       switch (meta.policy) {
         case HttpCacheFetchPolicy.CacheFirst:
           if (cachedResponse) {
@@ -104,7 +105,7 @@ export class HttpCacheInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       tap(event => {
-        if (event instanceof HttpResponse) {
+        if (meta && event instanceof HttpResponse) {
           if (meta.key) {
             switch (meta.policy) {
               case HttpCacheFetchPolicy.CacheFirst:

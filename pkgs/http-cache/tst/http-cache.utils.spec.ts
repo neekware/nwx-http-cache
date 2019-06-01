@@ -25,8 +25,8 @@ describe('HttpCache Utils', function() {
 
   it('should ordered state path throw error for empty key or value', function() {
     const statePath = new OrderedStatePath();
-    expect(() => statePath.add('', 'empty')).toThrow(new Error('Error: empty key is not allowed!'));
-    expect(() => statePath.add('empty', '')).toThrow(
+    expect(() => statePath.append('', 'empty')).toThrow(new Error('Error: empty key is not allowed!'));
+    expect(() => statePath.append('empty', '')).toThrow(
       new Error('Error: empty value is not allowed!')
     );
   });
@@ -49,9 +49,9 @@ describe('HttpCache Utils', function() {
       },
     };
     const statePath = new OrderedStatePath()
-      .add('userId', 1000)
-      .add('portfolio', 2)
-      .add('ticker', 'TSLA')
+      .append('userId', 1000)
+      .append('portfolio', 2)
+      .append('ticker', 'TSLA')
       .toString();
 
     const expectedStatePath = 'userId.[1000].portfolio.[2].ticker.[TSLA]';
@@ -77,9 +77,9 @@ describe('HttpCache Utils', function() {
       },
     };
     const statePath = new OrderedStatePath()
-      .add('userId', 1000)
-      .add('portfolio', 2)
-      .add('ticker', '*') // wildcard
+      .append('userId', 1000)
+      .append('portfolio', 2)
+      .append('ticker', '*') // wildcard
       .toString();
 
     const expectedStatePath = 'userId.[1000].portfolio.[2].ticker';
@@ -105,9 +105,9 @@ describe('HttpCache Utils', function() {
       },
     };
     const statePath = new OrderedStatePath()
-      .add('user.id', 1000)
-      .add('.__portfolio__', 2)
-      .add('ticker.....', 'TSLA.R')
+      .append('user.id', 1000)
+      .append('.__portfolio__', 2)
+      .append('ticker.....', 'TSLA.R')
       .toString();
 
     const expectedStatePath = 'user_id.[1000].portfolio.[2].ticker.[TSLA_R]';

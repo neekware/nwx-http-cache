@@ -12,7 +12,6 @@ import {
   HttpCacheMetaData,
   HTTP_CACHE_FETCH_POLICY,
   HTTP_CACHE_TTL,
-  HttpCacheFetchPolicy,
 } from './http-cache.types';
 import { DefaultInterpolationOptions, DefaultFetchPolicies } from './http-cache.defaults';
 import { HttpHeaders } from '@angular/common/http';
@@ -80,7 +79,7 @@ export class OrderedStatePath {
    * @returns A map of key,value pairs
    * Note: value = '*' means catch all
    */
-  add(key: string | number, value: string | number) {
+  append(key: string | number, value: string | number) {
     key = this.cleanString(`${key}`);
     if (!key || key.length < 1) {
       throw Error('Error: empty key is not allowed!');
@@ -116,12 +115,15 @@ export class OrderedStatePath {
  * Returns true if fetch policy exists and is enabled
  * @param policy Fetch policy type
  */
-export function isPolicyEnabled(policy: HttpCacheFetchPolicy): boolean {
-  return DefaultFetchPolicies.includes(policy);
+export function isPolicyEnabled(policy: string): boolean {
+  const enabled = Object.keys(DefaultFetchPolicies).find(
+    key => DefaultFetchPolicies[key] === policy
+  );
+  return !!enabled;
 }
 
 /**
- *
+ * Adds Http Cache Meta to headers
  * @param meta Http cache meta data
  * @param headers Http Headers instance
  */
@@ -129,8 +131,9 @@ export function addMetaToHttpHeaders(meta: HttpCacheMetaData, headers?: HttpHead
   if (!headers) {
     headers = new HttpHeaders();
   }
-  headers.append(HTTP_CACHE_FETCH_POLICY, meta.policy);
-  headers.append(HTTP_CACHE_KEY, meta.key);
-  headers.append(HTTP_CACHE_TTL, meta.ttl.toString());
+  headers = headers
+    .append(HTTP_CACHE_FETCH_POLICY, meta.policy)
+    .append(HTTP_CACHE_KEY, meta.key)
+    .append(HTTP_CACHE_TTL, meta.ttl.toString());
   return headers;
 }

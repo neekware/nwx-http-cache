@@ -7,14 +7,14 @@
  */
 
 import { Injectable } from '@angular/core';
+import { HttpResponse } from '@angular/common/http';
 
 import { merge as ldMerge } from 'lodash';
 import { CfgService, AppCfg } from '@nwx/cfg';
 import { LogService } from '@nwx/logger';
 
 import { DefaultHttpCacheCfg, DefaultMaxCacheExpiry } from './http-cache.defaults';
-import { HttpResponse } from '@angular/common/http';
-import { HttpCacheEntry } from './http-cache.types';
+import { HttpCacheEntry, StoreType } from './http-cache.types';
 import { CacheStore } from './http-cache.store';
 
 /**
@@ -24,9 +24,9 @@ import { CacheStore } from './http-cache.store';
   providedIn: 'root',
 })
 export class HttpCacheService {
-  private store = new CacheStore({});
-  private cacheMap = new Map<string, HttpCacheEntry>();
+  private _store = new CacheStore(<StoreType>{});
   private _options: AppCfg;
+  private cacheMap = new Map<string, HttpCacheEntry>();
 
   constructor(private cfg: CfgService, private log: LogService) {
     this._options = ldMerge({ httpCache: DefaultHttpCacheCfg }, cfg.options);
@@ -35,6 +35,10 @@ export class HttpCacheService {
 
   get options() {
     return this._options;
+  }
+
+  get store() {
+    return this._store;
   }
 
   /**
@@ -67,7 +71,7 @@ export class HttpCacheService {
       expiryTime: Date.now() + ttl * 1000,
     };
     this.cacheMap.set(key, entry);
-    this.store.setState({ key: entry.response.body });
+    this.store.setState({ [key]: entry.response.body });
     this.pruneCache();
   }
 
