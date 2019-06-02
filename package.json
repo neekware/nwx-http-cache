@@ -55,7 +55,7 @@
     "@angular/platform-browser": "^7.2.7",
     "@angular/platform-browser-dynamic": "^7.2.7",
     "@angular/router": "^7.2.7",
-    "@nwx/cfg": "^2.0.0",
+    "@nwx/cfg": "^2.0.1",
     "@nwx/logger": "^1.0.4",
     "core-js": "^2.6.5",
     "lodash": "^4.17.11",
