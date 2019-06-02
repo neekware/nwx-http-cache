@@ -24,21 +24,21 @@ import { CacheStore } from './http-cache.store';
   providedIn: 'root',
 })
 export class HttpCacheService {
-  private _store = new CacheStore(<StoreType>{});
-  private _options: AppCfg;
+  private cacheStore = new CacheStore({});
+  private appOptions: AppCfg;
   private cacheMap = new Map<string, HttpCacheEntry>();
 
   constructor(private cfg: CfgService, private log: LogService) {
-    this._options = ldMerge({ httpCache: DefaultHttpCacheCfg }, cfg.options);
+    this.appOptions = ldMerge({ httpCache: DefaultHttpCacheCfg }, cfg.options);
     this.log.debug('HttpCacheService ready ...');
   }
 
-  get options() {
-    return this._options;
+  get store() {
+    return this.cacheStore;
   }
 
-  get store() {
-    return this._store;
+  get options() {
+    return this.appOptions;
   }
 
   /**
@@ -61,7 +61,7 @@ export class HttpCacheService {
    * Caches a http response
    * @param key Cache key
    * @param ttl Cache expiry in seconds
-   * @param response {HttpResponse<any>} Http response
+   * @param http response
    */
   set(key: string, ttl = 0, response: HttpResponse<any>) {
     ttl = ttl === 0 ? DefaultMaxCacheExpiry : ttl;

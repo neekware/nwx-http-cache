@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
       .append('ticker', 'TSLA')
       .toString();
 
-    this.cacheService.store.select(this.cacheKey).subscribe({
+    this.cacheService.store.select<User>(this.cacheKey).subscribe({
       next: user => {
         console.log('via Select', user);
       },

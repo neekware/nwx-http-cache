@@ -65,14 +65,14 @@ export class HttpCacheInterceptor implements HttpInterceptor {
       switch (meta.policy) {
         case HttpCacheFetchPolicy.CacheFirst:
           if (cachedResponse) {
-            return observableOf(<HttpEvent<any>>cachedResponse);
+            return observableOf(cachedResponse);
           }
           return this.playItForward(req, next, meta);
 
         case HttpCacheFetchPolicy.ChacheAndNetwork:
           if (cachedResponse) {
             this.playItForward(req, next, meta);
-            return observableOf(<HttpEvent<any>>cachedResponse);
+            return observableOf(cachedResponse);
           }
           return this.playItForward(req, next, meta);
 
@@ -81,7 +81,7 @@ export class HttpCacheInterceptor implements HttpInterceptor {
 
         case HttpCacheFetchPolicy.CacheOnly:
           if (cachedResponse) {
-            return observableOf(<HttpEvent<any>>cachedResponse);
+            return observableOf(cachedResponse);
           }
           return throwError(new HttpErrorResponse({}));
 

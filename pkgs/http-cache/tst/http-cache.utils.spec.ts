@@ -8,30 +8,32 @@
 
 import { isFunction, interpolate, OrderedStatePath } from '../src/http-cache.utils';
 
-describe('HttpCache Utils', function() {
-  it('should isFunction return true', function() {
+describe('HttpCache Utils', () => {
+  it('should isFunction return true', () => {
     expect(isFunction(() => {})).toBe(true);
   });
 
-  it('should isFunction return false', function() {
+  it('should isFunction return false', () => {
     expect(isFunction({})).toBe(false);
   });
 
-  it('should interpolate without any params', function() {
+  it('should interpolate without any params', () => {
     const input = 'some.foo.bar.thingy';
     const output = interpolate(input, {});
     expect(output).toBe(input);
   });
 
-  it('should ordered state path throw error for empty key or value', function() {
+  it('should ordered state path throw error for empty key or value', () => {
     const statePath = new OrderedStatePath();
-    expect(() => statePath.append('', 'empty')).toThrow(new Error('Error: empty key is not allowed!'));
+    expect(() => statePath.append('', 'empty')).toThrow(
+      new Error('Error: empty key is not allowed!')
+    );
     expect(() => statePath.append('empty', '')).toThrow(
       new Error('Error: empty value is not allowed!')
     );
   });
 
-  it('should create a specific ordered state path', function() {
+  it('should create a specific ordered state path', () => {
     const state = {
       userId: {
         '[1000]': {
@@ -58,7 +60,7 @@ describe('HttpCache Utils', function() {
     expect(statePath).toBe(expectedStatePath);
   });
 
-  it('should create wildcard ordered state path', function() {
+  it('should create wildcard ordered state path', () => {
     const state = {
       userId: {
         '[1000]': {
@@ -86,7 +88,7 @@ describe('HttpCache Utils', function() {
     expect(statePath).toBe(expectedStatePath);
   });
 
-  it('should clean up state path', function() {
+  it('should clean up state path', () => {
     const state = {
       user_id: {
         '[1000]': {

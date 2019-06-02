@@ -59,9 +59,9 @@ export class CacheStore<T = StoreType> {
    * @param key Key to section of state
    * Note: Emits the the current state key match as the first item in the stream
    */
-  select<K extends keyof T>(key: K): Observable<T[K]> {
+  select<K>(key: string): Observable<K> {
     const selected$ = this.state$.pipe(
-      map((state: T) => ldGet(state, key)),
+      map(state => ldGet(state, key) as K),
       distinctUntilChanged()
     );
     return selected$;
