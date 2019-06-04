@@ -52,6 +52,7 @@ export class CacheStore<T = StoreType> {
     const partialState = isFunction(updater) ? updater(currentState) : updater;
     const nextState = Object.assign({}, currentState, partialState);
     this.state$.next(nextState);
+    console.log(this.getStateSnapshot());
   }
 
   /**
