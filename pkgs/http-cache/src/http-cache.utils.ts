@@ -104,7 +104,7 @@ export class OrderedStatePath {
       if (value === '*') {
         hierarchy.push(key);
       } else {
-        hierarchy.push(`${key}.[${value}]`);
+        hierarchy.push(`[${key}].[${value}]`);
       }
     });
     return hierarchy.join('.').replace(/\s+/g, '');

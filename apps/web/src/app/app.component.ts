@@ -13,6 +13,12 @@ export interface User {
   name: string;
 }
 
+export interface Role {
+  userId: string;
+  isAdmin: boolean;
+  isStaff: boolean;
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -21,7 +27,8 @@ export interface User {
 export class AppComponent implements OnInit {
   title = 'Neekware';
   options = {};
-  cacheKey: string;
+  userCacheKey: string;
+  roleCacheKey: string;
 
   constructor(
     private http: HttpClient,
@@ -34,30 +41,56 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.cacheKey = new OrderedStatePath()
+    this.userCacheKey = new OrderedStatePath()
       .append('userId', 1)
       .append('profileId', '1234')
       .append('ticker', 'TSLA')
       .toString();
 
-    this.cacheService.store.select<User>(this.cacheKey).subscribe({
+    this.cacheService.store.select<User>(this.userCacheKey).subscribe({
       next: user => {
         console.log('via Select', user);
       },
     });
+
+    this.roleCacheKey = new OrderedStatePath()
+      .append('userId', 1)
+      .append('roleId', 1)
+      .append('ticker', 'TSLA')
+      .toString();
+
+    this.cacheService.store.select<Role>(this.roleCacheKey).subscribe({
+      next: role => {
+        console.log('via Select', role);
+      },
+    });
   }
 
-  makeRequest() {
+  makeUserRequest() {
     const cacheBuster = new Date().getMilliseconds();
     const url = `/assets/data/users.json?cacheBust=${cacheBuster}`;
     const httpHeaders = addMetaToHttpHeaders({
       policy: HttpCacheFetchPolicy.CacheFirst,
-      key: this.cacheKey,
+      key: this.userCacheKey,
       ttl: 5,
     });
 
     this.http.get<User>(url, { headers: httpHeaders }).subscribe(user => {
       console.log('via Http', user);
+    });
+  }
+
+  makeRoleRequest() {
+    const cacheBuster = new Date().getMilliseconds();
+    const url = `/assets/data/roles.json?cacheBust=${cacheBuster}`;
+    const httpHeaders = addMetaToHttpHeaders({
+      policy: HttpCacheFetchPolicy.CacheFirst,
+      key: this.roleCacheKey,
+      ttl: 5,
+    });
+
+    this.http.get<Role>(url, { headers: httpHeaders }).subscribe(role => {
+      console.log('via Http', role);
     });
   }
 }
