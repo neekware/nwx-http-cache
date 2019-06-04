@@ -309,10 +309,10 @@
     tree-kill "1.2.1"
     webpack-sources "1.3.0"
 
-"@nwx/cfg@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@nwx/cfg/-/cfg-2.0.1.tgz#5387c991d73b30a7fab0c471d78e73521d5e9947"
-  integrity sha512-X4al5kDGFL/wv9Y2IHBTuLCmow1REjMMLXYePXK1LEmp/YkZzVX3Qq7FzBOYqoHyjwzWJEkCPyHnfvK2m8nVmw==
+"@nwx/cfg@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@nwx/cfg/-/cfg-2.0.2.tgz#459bcdcc7d0939f8ab5bf0ece25434fae45f77df"
+  integrity sha512-Wo2ySocTFMaNfL/c432X/iTvWWGf0OHlgZ/sQ0RKrRPIjQ/8dK6j+PTeVuSnM8NdouIVumqXiww/l/2GwNOd8Q==
   dependencies:
     tslib "^1.9.0"
 
