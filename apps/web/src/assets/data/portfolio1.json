@@ -1,0 +1,38 @@
+[
+  {
+    "uId": 1,
+    "cashPosition": 1000.0,
+    "equity": 5000.0,
+    "tickers": {
+      "GOOG": {
+        "shares": 100,
+        "purchase": 100.0,
+        "current": 120.0
+      }
+    }
+  },
+  {
+    "uId": 1,
+    "cashPosition": 1000.0,
+    "equity": 5000.0,
+    "tickers": {
+      "INTL": {
+        "shares": 100,
+        "purchase": 200.0,
+        "current": 500.12
+      }
+    }
+  },
+  {
+    "uId": 1,
+    "cashPosition": 2000.0,
+    "equity": 6000.0,
+    "tickers": {
+      "AMZN": {
+        "shares": 200,
+        "purchase": 350.0,
+        "current": 100.45
+      }
+    }
+  }
+]
