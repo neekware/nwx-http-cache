@@ -52,7 +52,6 @@ export class CacheStore<T = StoreType> {
     const partialState = isFunction(updater) ? updater(currentState) : updater;
     const nextState = Object.assign({}, currentState, partialState);
     this.state$.next(nextState);
-    console.log(this.getStateSnapshot());
   }
 
   /**
@@ -62,7 +61,7 @@ export class CacheStore<T = StoreType> {
    */
   select<K>(key: string): Observable<K> {
     const selected$ = this.state$.pipe(
-      map(state => ldGet(state, key) as K),
+      map((state: T) => state[key] as K),
       distinctUntilChanged()
     );
     return selected$;

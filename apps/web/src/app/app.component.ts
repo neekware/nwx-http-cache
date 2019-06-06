@@ -13,12 +13,6 @@ export interface User {
   name: string;
 }
 
-export interface Role {
-  userId: string;
-  isAdmin: boolean;
-  isStaff: boolean;
-}
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -41,56 +35,66 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userCacheKey = new OrderedStatePath()
-      .append('userId', 1)
-      .append('profileId', '1234')
-      .append('ticker', 'TSLA')
-      .toString();
+    this.cacheService.store
+      .select<User>(new OrderedStatePath().append('user', 1).toString())
+      .subscribe({
+        next: user => {
+          this.log.debug('User via Select', user);
+        },
+      });
 
-    this.cacheService.store.select<User>(this.userCacheKey).subscribe({
-      next: user => {
-        console.log('via Select', user);
-      },
-    });
+    this.cacheService.store
+      .select<User>(new OrderedStatePath().append('user', 2).toString())
+      .subscribe({
+        next: user => {
+          this.log.debug('User via Select', user);
+        },
+      });
 
-    this.roleCacheKey = new OrderedStatePath()
-      .append('userId', 1)
-      .append('roleId', 1)
-      .append('ticker', 'TSLA')
-      .toString();
+    this.cacheService.store
+      .select(new OrderedStatePath().append('portfolio', 1).toString())
+      .subscribe({
+        next: user => {
+          this.log.debug('Portfolio via Select', user);
+        },
+      });
 
-    this.cacheService.store.select<Role>(this.roleCacheKey).subscribe({
-      next: role => {
-        console.log('via Select', role);
-      },
-    });
+    this.cacheService.store
+      .select(new OrderedStatePath().append('portfolio', 2).toString())
+      .subscribe({
+        next: user => {
+          this.log.debug('Portfolio via Select', user);
+        },
+      });
   }
 
-  makeUserRequest() {
+  makeUserRequest(id: string) {
+    const cacheKey = new OrderedStatePath().append('user', id).toString();
     const cacheBuster = new Date().getMilliseconds();
-    const url = `/assets/data/users.json?cacheBust=${cacheBuster}`;
+    const url = `/assets/data/user${id}.json?cacheBust=${cacheBuster}`;
     const httpHeaders = addMetaToHttpHeaders({
       policy: HttpCacheFetchPolicy.CacheFirst,
-      key: this.userCacheKey,
+      key: cacheKey,
       ttl: 5,
     });
 
     this.http.get<User>(url, { headers: httpHeaders }).subscribe(user => {
-      console.log('via Http', user);
+      this.log.debug('User via Http', user);
     });
   }
 
-  makeRoleRequest() {
+  makePortfolioRequest(id: string) {
+    const cacheKey = new OrderedStatePath().append('portfolio', id).toString();
     const cacheBuster = new Date().getMilliseconds();
-    const url = `/assets/data/roles.json?cacheBust=${cacheBuster}`;
+    const url = `/assets/data/portfolio${id}.json?cacheBust=${cacheBuster}`;
     const httpHeaders = addMetaToHttpHeaders({
       policy: HttpCacheFetchPolicy.CacheFirst,
-      key: this.roleCacheKey,
+      key: cacheKey,
       ttl: 5,
     });
 
-    this.http.get<Role>(url, { headers: httpHeaders }).subscribe(role => {
-      console.log('via Http', role);
+    this.http.get<any>(url, { headers: httpHeaders }).subscribe(portfolio => {
+      this.log.debug('Portfolio via Http', portfolio);
     });
   }
 }

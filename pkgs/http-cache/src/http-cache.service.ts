@@ -9,11 +9,14 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 
-import { merge as ldMerge, setWith as ldSetWith } from 'lodash';
+import { merge as ldMerge } from 'lodash';
 import { CfgService, AppCfg } from '@nwx/cfg';
 import { LogService } from '@nwx/logger';
 
-import { DefaultHttpCacheCfg, DefaultMaxCacheExpiry } from './http-cache.defaults';
+import {
+  DefaultHttpCacheCfg,
+  DefaultMaxCacheExpiry,
+} from './http-cache.defaults';
 import { HttpCacheEntry, StoreType } from './http-cache.types';
 import { CacheStore } from './http-cache.store';
 
@@ -65,14 +68,10 @@ export class HttpCacheService {
    */
   set(key: string, ttl = 0, response: HttpResponse<any>) {
     ttl = ttl === 0 ? DefaultMaxCacheExpiry : ttl;
-    const entry: HttpCacheEntry = {
-      key,
-      response,
-      expiryTime: Date.now() + ttl * 1000,
-    };
+    const expiryTime = Date.now() + ttl * 1000;
+    const entry: HttpCacheEntry = { key, response, expiryTime };
     this.cacheMap.set(key, entry);
-    const partialState = ldSetWith({}, key, entry.response.body, Object);
-    this.store.setState(partialState);
+    this.store.setState({ [key]: entry.response.body });
     this.pruneCache();
   }
 
