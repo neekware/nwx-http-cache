@@ -60,8 +60,73 @@ export class AppModule {}
 ```
 
 ```typescript
-// In your app.module.ts
+// In your app.component.ts
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
 
+@Component({
+  selector: 'app',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
+})
+export class AppComponent implements OnInit, OnDestroy {
+  title = 'Neekware';
+  options = {};
+  destroy$ = new Subject();
+
+  constructor(
+    private http: HttpClient,
+    private httpCache: HttpCacheService
+  ) {
+    this.title = this.cfg.options.appName;
+    console.log('AppComponent loaded ...');
+  }
+
+  ngOnInit() {
+    // create a state path into our store - also used as internal cache key
+    const userStatePath = new OrderedStatePath().append('user', 1).toString());
+
+    // select on the state path to be notified of any change
+    this.httpCache.store
+      .select<User>(userStatePath)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: user => {
+          console.log('User via Select', user);
+        },
+      });
+
+      this.makeUserRequest(1); // calls the api
+      
+      setTimeout(() => {
+        this.makeUserRequest(1); // uses the cache response
+      }, 4)
+
+      setTimeout(() => {
+        this.makeUserRequest(1); // calls the api
+      }, 6)
+  }
+
+  makeUserRequest(id: string) {
+    const cacheKey = new OrderedStatePath().append('user', id).toString();
+    const httpHeaders = addMetaToHttpHeaders({
+      policy: HttpCacheFetchPolicy.CacheFirst,
+      key: cacheKey,
+      ttl: 5,
+    });
+
+    this.http.get<User>(`/api/user/${id}`, { headers: httpHeaders })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(user => {
+      console.log('User via Http', user);
+    });
+  }
+
+  ngOnDestroy() {
+    this.destory$.next();
+    this.destroy$.complete();
+  }
+}
 ```
 
 # Running the tests

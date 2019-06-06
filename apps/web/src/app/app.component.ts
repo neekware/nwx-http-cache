@@ -21,8 +21,6 @@ export interface User {
 export class AppComponent implements OnInit {
   title = 'Neekware';
   options = {};
-  userCacheKey: string;
-  roleCacheKey: string;
 
   constructor(
     private http: HttpClient,
