@@ -13,10 +13,7 @@ import {
   HTTP_CACHE_FETCH_POLICY,
   HTTP_CACHE_TTL,
 } from './http-cache.types';
-import {
-  DefaultInterpolationOptions,
-  DefaultFetchPolicies,
-} from './http-cache.defaults';
+import { DefaultInterpolationOptions, DefaultFetchPolicies } from './http-cache.defaults';
 import { HttpHeaders } from '@angular/common/http';
 import { HTTP_CACHE_KEY } from './http-cache.types';
 
@@ -126,10 +123,7 @@ export function isPolicyEnabled(policy: string): boolean {
  * @param meta Http cache meta data
  * @param headers Http Headers instance
  */
-export function addMetaToHttpHeaders(
-  meta: HttpCacheMetaData,
-  headers?: HttpHeaders
-): HttpHeaders {
+export function addMetaToHttpHeaders(meta: HttpCacheMetaData, headers?: HttpHeaders): HttpHeaders {
   if (!headers) {
     headers = new HttpHeaders();
   }

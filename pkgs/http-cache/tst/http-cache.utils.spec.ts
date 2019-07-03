@@ -6,11 +6,7 @@
  * found in the LICENSE file at http://neekware.com/license/MIT.html
  */
 
-import {
-  isFunction,
-  interpolate,
-  OrderedStatePath,
-} from '../src/http-cache.utils';
+import { isFunction, interpolate, OrderedStatePath } from '../src/http-cache.utils';
 
 describe('HttpCache Utils', () => {
   it('should isFunction return true', () => {

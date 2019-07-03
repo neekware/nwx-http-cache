@@ -84,41 +84,48 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // create a state path into our store - also used as internal cache key
-    const userStatePath = new OrderedStatePath().append('user', 1).toString());
+    const portfolioStatePath = new OrderedStatePath()
+      .append('user', 1)
+      .append('portfolio', 2)
+      .toString());
 
     // select on the state path to be notified of any change
     this.httpCache.store
-      .select<User>(userStatePath)
+      .select<Portfolio>(portfolioStatePath)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: user => {
-          console.log('User via Select', user);
+        next: portfolio => {
+          console.log('Portfolio via Select', portfolio);
         },
       });
 
-      this.makeUserRequest(1); // calls the api
-      
+      this.makePortfolioRequest('1', '2'); // calls the api
+
       setTimeout(() => {
-        this.makeUserRequest(1); // uses the cache response
+        this.makePortfolioRequest('1', '2'); // uses the cache response
       }, 4)
 
       setTimeout(() => {
-        this.makeUserRequest(1); // calls the api
+        this.makePortfolioRequest('1', '2'); // calls the api
       }, 6)
   }
 
-  makeUserRequest(id: string) {
-    const cacheKey = new OrderedStatePath().append('user', id).toString();
+  makePortfolioRequest(uId: string, pId: string) {
+    const cacheKey = new OrderedStatePath()
+      .append('user', uId)
+      .append('portfolio', pId)
+      .toString();
+      
     const httpHeaders = addMetaToHttpHeaders({
       policy: HttpCacheFetchPolicy.CacheFirst,
       key: cacheKey,
       ttl: 5,
     });
 
-    this.http.get<User>(`/api/user/${id}`, { headers: httpHeaders })
+    this.http.get<Portfolio>(`/api/user/${uId}/portfolio/${pId}`, { headers: httpHeaders })
       .pipe(takeUntil(this.destroy$))
-      .subscribe(user => {
-      console.log('User via Http', user);
+      .subscribe(portfolio => {
+      console.log('Portfolio via Http', portfolio);
     });
   }
 

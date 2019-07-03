@@ -13,10 +13,7 @@ import { merge as ldMerge } from 'lodash';
 import { CfgService, AppCfg } from '@nwx/cfg';
 import { LogService } from '@nwx/logger';
 
-import {
-  DefaultHttpCacheCfg,
-  DefaultMaxCacheExpiry,
-} from './http-cache.defaults';
+import { DefaultHttpCacheCfg, DefaultMaxCacheExpiry } from './http-cache.defaults';
 import { HttpCacheEntry, StoreType } from './http-cache.types';
 import { CacheStore } from './http-cache.store';
 

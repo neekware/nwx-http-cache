@@ -6,9 +6,11 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpErrorResponse,
+  HttpHeaders,
 } from '@angular/common/http';
 import { Observable, of as observableOf, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { uuid4 } from 'uuid/v4';
 import {
   HttpCacheFetchPolicy,
   HTTP_CACHE_KEY,
@@ -44,6 +46,16 @@ export class HttpCacheInterceptor implements HttpInterceptor {
   }
 
   /**
+   * Inserts a unique identifier to each requests headers.
+   * The purpose is for client request / server response / log correlation.
+   * @param headers Http headers
+   */
+  private addUniqueRequestId(headers: HttpHeaders) {
+    const uuid = uuid4();
+    headers.set('X-Request-ID', uuid).set('X-Correlation-ID', uuid);
+  }
+
+  /**
    * Removes intercept meta data from http headers
    * @param request Intercepted request
    */
@@ -59,6 +71,8 @@ export class HttpCacheInterceptor implements HttpInterceptor {
    * @param next Handler for this intercept
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    this.addUniqueRequestId(req.headers);
+
     const meta = this.getMeta(req);
     if (meta && meta.key) {
       const cachedResponse = this.cache.get(meta.key);
