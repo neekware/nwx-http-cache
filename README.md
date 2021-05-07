@@ -2,6 +2,8 @@
 
 **A simple http cache module for Angular applications**
 
+# Library was deprecated in favor of [`@fullerstack/ngx-http-cache`](https://github.com/neekware/fullerstack/tree/main/libs/ngx-http-cache)
+
 [![status-image]][status-link]
 [![version-image]][version-link]
 [![coverage-image]][coverage-link]
@@ -165,4 +167,4 @@ X.Y.Z Version
 
 # Sponsors
 
-[Surge](https://github.com/surgeforward)
+[Neekware Inc.](https://github.com/neekware)
