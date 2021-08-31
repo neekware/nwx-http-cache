@@ -1,8 +1,8 @@
+# Library was deprecated in favor of [`@fullerstack/ngx-cachify`](https://github.com/neekware/fullerstack/tree/main/libs/ngx-cachify)
+
 # @nwx/http-cache
 
 **A simple http cache module for Angular applications**
-
-# Library was deprecated in favor of [`@fullerstack/ngx-http-cache`](https://github.com/neekware/fullerstack/tree/main/libs/ngx-http-cache)
 
 [![status-image]][status-link]
 [![version-image]][version-link]
